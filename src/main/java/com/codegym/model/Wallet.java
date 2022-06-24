@@ -21,6 +21,14 @@ public class Wallet {
     public Wallet() {
     }
 
+    public Wallet(String name, String icon, double moneyAmount, MoneyType moneyType, AppUser appUser) {
+        this.name = name;
+        this.icon = icon;
+        this.moneyAmount = moneyAmount;
+        this.moneyType = moneyType;
+        this.appUser = appUser;
+    }
+
     public Wallet(Long id, String name, String icon, double moneyAmount, MoneyType moneyType, AppUser appUser) {
         this.id = id;
         this.name = name;
