@@ -31,4 +31,10 @@ public class WalletService implements IWalletService {
     public void remove(Long id) {
         walletRepository.deleteById(id);
     }
+
+
+    @Override
+    public Iterable<Wallet> findAllByAppUser_Id(Long id) {
+        return walletRepository.findAllByAppUser_Id(id);
+    }
 }
