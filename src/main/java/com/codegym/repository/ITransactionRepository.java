@@ -11,4 +11,5 @@ public interface ITransactionRepository extends PagingAndSortingRepository<Trans
     Iterable<Transaction> findAllByCreatedDateBetween(LocalDateTime fromTime, LocalDateTime toTime);
     Iterable<Transaction> findAllByOrderByCreatedDateDesc();
 
+    Iterable<Transaction> findAllByWalletIdAndCreatedDateBetween(Long id, LocalDateTime fromTime, LocalDateTime toTime);
 }
