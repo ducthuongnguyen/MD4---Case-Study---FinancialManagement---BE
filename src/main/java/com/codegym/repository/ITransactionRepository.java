@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 
 @Repository
-public interface ITransactionRepository extends JpaRepository<Transaction,Long> {
+public interface ITransactionRepository extends PagingAndSortingRepository<Transaction,Long> {
     Iterable<Transaction> findAllByCreatedDateBetween(LocalDateTime fromTime, LocalDateTime toTime);
     Iterable<Transaction> findAllByOrderByCreatedDateDesc();
 

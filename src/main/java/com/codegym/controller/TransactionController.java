@@ -8,9 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -61,5 +59,15 @@ public class TransactionController {
         transaction.setCreatedDate(LocalDateTime.now());
         transactionService.save(transaction);
         return new ResponseEntity<>( HttpStatus.OK);
+    }
+
+
+    @GetMapping("/users/findCreateDateBetween")
+    public ResponseEntity<Iterable<Transaction>> findAllByCreatedDateBetween(@RequestParam String fromTime, @RequestParam String toTime){
+        if(fromTime.equals("") && toTime.equals("")){
+            fromTime = "1900-01-01T00:00:00";
+            toTime = String.valueOf(LocalDateTime.now());
+        }
+        return new ResponseEntity<>(transactionService.findAllByCreatedDateBetween(LocalDateTime.parse(fromTime), LocalDateTime.parse(toTime)), HttpStatus.OK);
     }
 }
