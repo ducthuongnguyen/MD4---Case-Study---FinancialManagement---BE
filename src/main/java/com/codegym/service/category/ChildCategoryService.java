@@ -2,7 +2,9 @@ package com.codegym.service.category;
 
 import com.codegym.model.ChildCategory;
 import com.codegym.model.ExpenseCategory;
+import com.codegym.model.ParentCategory;
 import com.codegym.repository.ICategoryRepository;
+import com.codegym.repository.IChildCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,9 @@ import java.util.Optional;
 public class ChildCategoryService implements IChildCategoryService {
     @Autowired
     ICategoryRepository categoryRepository;
+
+    @Autowired
+    IChildCategoryRepository childCategoryRepository;
 
     @Override
     public Iterable<ChildCategory> findAll() {
@@ -36,5 +41,10 @@ public class ChildCategoryService implements IChildCategoryService {
     @Override
     public Iterable<ExpenseCategory> showExpenseCategories() {
         return categoryRepository.showExpenseCategories();
+    }
+
+    @Override
+    public Iterable<ChildCategory> findAllByParentCategory(ParentCategory parentCategory) {
+        return childCategoryRepository.findAllByParentCategory(parentCategory);
     }
 }
