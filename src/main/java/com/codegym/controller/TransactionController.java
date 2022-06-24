@@ -70,4 +70,14 @@ public class TransactionController {
         }
         return new ResponseEntity<>(transactionService.findAllByCreatedDateBetween(LocalDateTime.parse(fromTime), LocalDateTime.parse(toTime)), HttpStatus.OK);
     }
+
+
+    @GetMapping("/users/findAllByCreatedDate/{id}")
+    public ResponseEntity<Iterable<Transaction>> findAllByWalletIdAndCreatedDateBetween(@PathVariable Long id, @RequestParam String fromTime,@RequestParam String toTime){
+        if(fromTime.equals("") && toTime.equals("")){
+            fromTime = "1900-01-01T00:00:00";
+            toTime = String.valueOf(LocalDateTime.now());
+        }
+        return new ResponseEntity<>(transactionService.findAllByWalletIdAndCreatedDateBetween(id,LocalDateTime.parse(fromTime), LocalDateTime.parse(toTime)), HttpStatus.OK);
+    }
 }
