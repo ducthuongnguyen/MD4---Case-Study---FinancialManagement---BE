@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/wallet")
+@RequestMapping("/wallets")
 public class WalletController {
     @Autowired
     private AppUserService appUserService;
@@ -40,7 +40,7 @@ public class WalletController {
         return new ResponseEntity<>(walletOptional.get(), HttpStatus.OK);
     }
 
-    @PostMapping("/create-wallet")
+    @PostMapping("/create-wallets")
     public ResponseEntity<Wallet> createWallet(@RequestBody Wallet wallet ){
         System.out.println(wallet);
 //        AppUser appUser = appUserService.findById(id).get();
@@ -52,7 +52,7 @@ public class WalletController {
     }
 
 
-    @PutMapping("/editWallet/{id}")
+    @PutMapping("/editWallets/{id}")
     public ResponseEntity<Wallet> editWallet(@RequestBody Wallet wallet, @PathVariable Long id){
         Optional<Wallet> walletOptional = walletService.findById(id);
         if (!walletOptional.isPresent()) {
