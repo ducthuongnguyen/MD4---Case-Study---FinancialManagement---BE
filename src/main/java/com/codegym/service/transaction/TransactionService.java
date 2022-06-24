@@ -37,4 +37,9 @@ public class TransactionService implements ITransactionService {
     public Iterable<Transaction> findAllByCreatedDateBetween(LocalDateTime fromTime, LocalDateTime toTime) {
         return transactionRepository.findAllByCreatedDateBetween(fromTime, toTime);
     }
+
+    @Override
+    public Iterable<Transaction> findAllByWalletIdAndCreatedDateBetween(Long id, LocalDateTime fromTime, LocalDateTime toTime) {
+        return transactionRepository.findAllByWalletIdAndCreatedDateBetween(id, fromTime, toTime);
+    }
 }

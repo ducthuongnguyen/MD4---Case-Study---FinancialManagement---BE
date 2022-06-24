@@ -11,4 +11,5 @@ import java.time.LocalDateTime;
 public interface ITransactionRepository extends JpaRepository<Transaction,Long> {
     Iterable<Transaction> findAllByCreatedDateBetween(LocalDateTime fromTime, LocalDateTime toTime);
 
+    Iterable<Transaction> findAllByWalletIdAndCreatedDateBetween(Long id, LocalDateTime fromTime, LocalDateTime toTime);
 }
