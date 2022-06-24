@@ -73,4 +73,9 @@ public class WalletController {
         walletService.remove(id);
         return new ResponseEntity<>(walletOptional.get(), HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("/findByUser/{id}")
+    public ResponseEntity<Iterable<Wallet>> findAllByAppUserId(@PathVariable Long id){
+        return new ResponseEntity<>(walletService.findAllByAppUser_Id(id), HttpStatus.OK);
+    }
 }
