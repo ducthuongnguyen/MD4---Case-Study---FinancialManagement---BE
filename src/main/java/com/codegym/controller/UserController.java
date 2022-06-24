@@ -1,4 +1,4 @@
-package com.codegym.user;
+package com.codegym.controller;
 
 import com.codegym.dto.request.LogInForm;
 import com.codegym.dto.request.SignUpForm;
@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -45,25 +46,22 @@ public class UserController {
 
     @PostMapping("/signUp")
     public ResponseEntity<?> createNewAccount(@Valid @RequestBody SignUpForm signUpForm) {
-        if (appUserService.existsByName(signUpForm.getName())) {
-            return new ResponseEntity<>(new ResponseMessage("no_user"),
-                    HttpStatus.BAD_REQUEST);
-        }
         if (appUserService.existsByEmail(signUpForm.getEmail())) {
-            return new ResponseEntity<>(new ResponseMessage("no_email"),
+            return new ResponseEntity<>(new ResponseMessage("existed_email"),
                     HttpStatus.BAD_REQUEST);
         }  // Creating user's account
-        if (signUpForm.getPassword().equals(signUpForm.getPasswordConfirm())){
+        if (signUpForm.getPassword().equals(signUpForm.getPasswordConfirm())) {
             AppUser user = new AppUser(signUpForm.getName(), signUpForm.getEmail(),
                     passwordEncoder.encode(signUpForm.getPassword()), passwordEncoder.encode(signUpForm.getPasswordConfirm()));
             appUserService.save(user);
-        }else {
+        } else {
             return new ResponseEntity<>(new ResponseMessage("password fail"),
                     HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(new ResponseMessage("successfully"), HttpStatus.OK);
     }
+
     @PostMapping("/logIn")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LogInForm logInForm) {
 
@@ -78,37 +76,5 @@ public class UserController {
         return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(), userDetails.getName(), userDetails.getEmail(), userDetails.getAvatar(), userDetails.getPassword()
         ));
 
-    }
-//    @PutMapping("/edit/{id}")
-//    public ResponseEntity<AppUser> editProfile(@RequestBody AppUser appUser,@PathVariable Long id ){
-//        Optional<AppUser> userOptional=appUserService.findById(id);
-//        if (!userOptional.isPresent()){
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//        appUser.setId(userOptional.get().getId());
-//        appUserService.save(appUser);
-//        return new ResponseEntity<>(appUser,HttpStatus.OK);
-//    }
-    @PutMapping("/changePassword")
-    public ResponseEntity<?> changePassword(HttpServletRequest request, @Valid @RequestBody ChangePassword changePassword){
-        String jwt = JwtAuthTokenFilter.getJwt(request)   ;
-        String emailUser = jwtProvider.getEmailFromJwtToken(jwt);
-        AppUser appUser;
-
-        try {
-            appUser = appUserService.findUserByEmail(emailUser).orElseThrow(()-> new UsernameNotFoundException(" Not Found  -> email "+emailUser));
-            boolean matches = passwordEncoder.matches(changePassword.getCurrentPassword(), appUser.getPassword());
-            if(changePassword.getNewPassword() != null){
-                if(matches){
-                    appUser.setPassword(passwordEncoder.encode(changePassword.getNewPassword()));
-                    appUserService.save(appUser);
-                } else {
-                    return new ResponseEntity<>(new ResponseMessage("no"), HttpStatus.OK);
-                }
-            }
-            return new ResponseEntity<>(new ResponseMessage("yes"), HttpStatus.OK);
-        } catch (UsernameNotFoundException exception){
-            return new ResponseEntity<>(new ResponseMessage(exception.getMessage()), HttpStatus.NOT_FOUND);
-        }
     }
 }
