@@ -1,4 +1,4 @@
-package com.codegym.controller.user;
+package com.codegym.user;
 
 import com.codegym.dto.request.LogInForm;
 import com.codegym.dto.request.SignUpForm;
@@ -6,9 +6,9 @@ import com.codegym.dto.response.JwtResponse;
 import com.codegym.dto.response.ResponseMessage;
 import com.codegym.model.user.AppUser;
 import com.codegym.model.user.ChangePassword;
-import com.codegym.secirity.jwt.JwtAuthTokenFilter;
-import com.codegym.secirity.jwt.JwtProvider;
-import com.codegym.secirity.userprinciple.UserPrinciple;
+import com.codegym.security.jwt.JwtAuthTokenFilter;
+import com.codegym.security.jwt.JwtProvider;
+import com.codegym.security.userprinciple.UserPrinciple;
 import com.codegym.service.appuser.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

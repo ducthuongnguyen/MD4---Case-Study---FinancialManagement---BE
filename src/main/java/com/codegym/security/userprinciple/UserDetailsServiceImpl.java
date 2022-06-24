@@ -1,4 +1,4 @@
-package com.codegym.secirity.userprinciple;
+package com.codegym.security.userprinciple;
 
 import com.codegym.model.user.AppUser;
 import com.codegym.repository.IAppUserRepository;

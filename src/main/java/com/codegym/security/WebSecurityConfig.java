@@ -1,8 +1,8 @@
-package com.codegym.secirity;
+package com.codegym.security;
 
-import com.codegym.secirity.jwt.JwtAuthEntryPoint;
-import com.codegym.secirity.jwt.JwtAuthTokenFilter;
-import com.codegym.secirity.userprinciple.UserDetailsServiceImpl;
+import com.codegym.security.jwt.JwtAuthEntryPoint;
+import com.codegym.security.jwt.JwtAuthTokenFilter;
+import com.codegym.security.userprinciple.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -63,6 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users/logIn**").permitAll()
 //                .and().authorizeRequests().antMatchers("/admin**").hasAnyRole("ADMIN")
 //                .and().authorizeRequests().antMatchers("/user**").hasAnyRole("USER")
+                .anyRequest().authenticated()
                 .and()
                 .csrf().disable();
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
