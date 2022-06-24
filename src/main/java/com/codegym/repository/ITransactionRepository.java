@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ITransactionRepository extends PagingAndSortingRepository<Transaction,Long> {
+
+    Iterable<Transaction> findAllByOrderByCreatedDateDesc();
+
 }
