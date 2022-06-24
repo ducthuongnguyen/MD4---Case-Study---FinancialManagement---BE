@@ -1,5 +1,7 @@
 package com.codegym.model;
 
+import com.codegym.model.user.AppUser;
+
 import javax.persistence.*;
 
 @Entity
