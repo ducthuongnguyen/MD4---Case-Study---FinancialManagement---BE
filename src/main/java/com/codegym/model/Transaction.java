@@ -1,5 +1,7 @@
 package com.codegym.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -13,8 +15,9 @@ public class Transaction {
     private Wallet wallet;
     @ManyToOne
     private ChildCategory childCategory;
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private double moneyAmount;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdDate;
     private String note;
 
