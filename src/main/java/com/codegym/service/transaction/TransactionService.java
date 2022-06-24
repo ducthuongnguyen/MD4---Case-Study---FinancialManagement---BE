@@ -5,6 +5,7 @@ import com.codegym.repository.ITransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -30,5 +31,10 @@ public class TransactionService implements ITransactionService {
     @Override
     public void remove(Long id) {
         transactionRepository.deleteById(id);
+    }
+
+    @Override
+    public Iterable<Transaction> findAllByCreatedDateBetween(LocalDateTime fromTime, LocalDateTime toTime) {
+        return transactionRepository.findAllByCreatedDateBetween(fromTime, toTime);
     }
 }
