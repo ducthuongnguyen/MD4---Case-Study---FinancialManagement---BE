@@ -88,4 +88,9 @@ public class WalletController {
         Iterable<Wallet> wallets = walletService.findAllByAppUser(userOptional.get());
         return new ResponseEntity<>(wallets, HttpStatus.OK);
     }
+
+    @GetMapping("/findByName/{name}")
+    public ResponseEntity<Iterable<Wallet>> findByWalletName(@PathVariable String name){
+        return new ResponseEntity<>(walletService.findAllByNameContaining(name), HttpStatus.OK);
+    }
 }
