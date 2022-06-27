@@ -1,6 +1,7 @@
 package com.codegym.controller;
 
 
+import com.codegym.model.Transaction;
 import com.codegym.model.Wallet;
 import com.codegym.model.user.AppUser;
 import com.codegym.service.appuser.IAppUserService;

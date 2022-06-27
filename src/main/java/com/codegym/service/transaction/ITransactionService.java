@@ -6,10 +6,10 @@ import com.codegym.service.IGeneralService;
 
 import java.time.LocalDateTime;
 
-import java.util.Optional;
 
 public interface ITransactionService extends IGeneralService<Transaction> {
     Iterable<Transaction> findAllByOrderByCreatedDate();
+
     Iterable<Transaction> findAllByCreatedDateBetween(LocalDateTime fromTime, LocalDateTime toTime);
 
     Iterable<Transaction> findAllByWalletIdAndCreatedDateBetween(Long id, LocalDateTime fromTime, LocalDateTime toTime);
@@ -18,5 +18,5 @@ public interface ITransactionService extends IGeneralService<Transaction> {
 
     Iterable<Transaction> findAllByWalletOrderByCreatedDateDesc(Wallet wallet);
 
-    Iterable<Transaction> findAllByCreatedDateBetween(Long walletId,LocalDateTime from, LocalDateTime to);
+//    Iterable<Transaction> findAllByCreatedDateBetween(Long walletId, LocalDateTime from, LocalDateTime to);
 }

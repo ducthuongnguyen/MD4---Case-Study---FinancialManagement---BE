@@ -20,8 +20,8 @@ public interface ITransactionRepository extends PagingAndSortingRepository<Trans
 
     Iterable<Transaction> findAllByWalletOrderByCreatedDateDesc(Wallet wallet);
 
-    @Query(value = "select * from transactions where wallet_id =:walletId and created_date between :from and :to", nativeQuery = true)
-    Iterable<Transaction> findAllByCreatedDateBetween(Long walletId, LocalDateTime from, LocalDateTime to);
+//    @Query(value = "select * from transactions where wallet_id =:walletId and created_date between :from and :to", nativeQuery = true)
+//    Iterable<Transaction> findAllByCreatedDateBetween(Long walletId, LocalDateTime from, LocalDateTime to);
 
     Iterable<Transaction> findAllByWalletIdAndCreatedDateBetween(Long id, LocalDateTime fromTime, LocalDateTime toTime);
 }
