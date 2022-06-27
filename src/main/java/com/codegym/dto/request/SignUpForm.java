@@ -1,39 +1,32 @@
 package com.codegym.dto.request;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import java.util.Set;
 
 public class SignUpForm {
-    @NotBlank
-    @Size(min = 2, max = 50)
-    String name;
-    @NotBlank
-    @Size(min = 2, max = 50)
-    @Email
-    String email;
-    @NotBlank
-    @Size(min = 6, max = 20)
-    String password;
-    String passwordConfirm;
+    private String name;
+    private String username;
+    private String email;
+    private String password;
+    private String avatar;
+    private Set<String> roles;
 
     public SignUpForm() {
     }
 
-    public SignUpForm(@NotBlank
-                      @Size(min = 2, max = 50) String name,
-                      @NotBlank
-                      @Size(min = 2, max = 50)
-                      @Email String email,
-                      @NotBlank
-                      @Size(min = 6, max = 20) String password,
-                      String passwordConfirm
-   ) {
+    public SignUpForm(String name, String username, String email, String password, Set<String> roles) {
         this.name = name;
+        this.username = username;
         this.email = email;
         this.password = password;
-        this.passwordConfirm = passwordConfirm;
+        this.roles = roles;
+    }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getName() {
@@ -42,6 +35,14 @@ public class SignUpForm {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
@@ -60,12 +61,11 @@ public class SignUpForm {
         this.password = password;
     }
 
-    public String getPasswordConfirm() {
-        return passwordConfirm;
+    public Set<String> getRoles() {
+        return roles;
     }
 
-    public void setPasswordConfirm(String passwordConfirm) {
-        this.passwordConfirm = passwordConfirm;
+    public void setRoles(Set<String> roles) {
+        this.roles = roles;
     }
-
 }

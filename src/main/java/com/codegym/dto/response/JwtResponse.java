@@ -1,67 +1,46 @@
 package com.codegym.dto.response;
 
 
+import org.springframework.security.core.GrantedAuthority;
+
+import java.util.Collection;
+
 public class JwtResponse {
-    private Long id;
-    private String token;
+    Long id;
+    String token;
     private String type = "Bearer";
     private String name;
-    private String email;
     private String avatar;
-    private String password;
+    private Collection<? extends GrantedAuthority> roles;
 
-    public JwtResponse(String accessToken, Long id, String name, String email, String avatar ,String password) {
-        this.token = accessToken;
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.avatar = avatar;
-        this.password=password;
-
+    public JwtResponse() {
     }
 
-    public JwtResponse(Long id, String token, String type, String name, String email, String avatar, String password) {
+//    public JwtResponse(String token, String type, String name,String avatar, Collection<? extends GrantedAuthority> roles) {
+//        this.token = token;
+//        this.type = type;
+//        this.name = name;
+//        this.avatar = avatar;
+//        this.roles = roles;
+//    }
+
+
+    public JwtResponse(Long id, String token, String name, String avatar, Collection<? extends GrantedAuthority> roles) {
         this.id = id;
         this.token = token;
-        this.type = type;
+
         this.name = name;
-        this.email = email;
         this.avatar = avatar;
-        this.password = password;
-
+        this.roles = roles;
     }
 
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    public JwtResponse(String token, String name, String avatar, Collection<? extends GrantedAuthority> authorities) {
+        this.token = token;
         this.name = name;
+        this.avatar = avatar;
+        this.roles = authorities;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getToken() {
         return token;
@@ -79,30 +58,36 @@ public class JwtResponse {
         this.type = type;
     }
 
-
-    public String getAccessToken() {
-        return token;
+    public String getName() {
+        return name;
     }
 
-    public void setAccessToken(String accessToken) {
-        this.token = accessToken;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getTokenType() {
-        return type;
+    public Collection<? extends GrantedAuthority> getRoles() {
+        return roles;
     }
 
-    public void setTokenType(String tokenType) {
-        this.type = tokenType;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public String getPassword() {
-        return password;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setRoles(Collection<? extends GrantedAuthority> roles) {
+        this.roles = roles;
     }
 
+    public Long getId() {
+        return id;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+}
 

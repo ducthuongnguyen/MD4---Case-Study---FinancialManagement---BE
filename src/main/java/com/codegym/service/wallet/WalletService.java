@@ -1,6 +1,7 @@
 package com.codegym.service.wallet;
 
 import com.codegym.model.Wallet;
+import com.codegym.model.user.AppUser;
 import com.codegym.repository.IWalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,5 +31,15 @@ public class WalletService implements IWalletService {
     @Override
     public void remove(Long id) {
         walletRepository.deleteById(id);
+    }
+
+
+    @Override
+    public Iterable<Wallet> findAllByAppUser(AppUser appUser) {
+        return walletRepository.findAllByAppUser(appUser);
+    }
+    @Override
+    public Iterable<Wallet> findAllByNameContaining(String name) {
+        return walletRepository.findAllByNameContaining(name);
     }
 }

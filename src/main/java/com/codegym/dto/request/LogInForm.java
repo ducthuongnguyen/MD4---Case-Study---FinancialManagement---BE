@@ -1,35 +1,23 @@
 package com.codegym.dto.request;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-
 public class LogInForm {
-    @NotBlank
-    @Size(min = 6, max = 40)
-    String email;
-    @NotBlank
-    @Size(min = 6, max = 40)
+    private String username;
     private String password;
 
     public LogInForm() {
     }
 
-    public LogInForm(@NotBlank
-                     @Size(min = 6, max = 40)
-                     @Email String email,
-                     @NotBlank
-                     @Size(min = 6, max = 40) String password) {
-        this.email = email;
+    public LogInForm(String username, String password) {
+        this.username = username;
         this.password = password;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUsername() {
+        return username;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
