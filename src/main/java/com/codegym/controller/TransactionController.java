@@ -8,9 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -62,4 +60,12 @@ public class TransactionController {
         transactionService.save(transaction);
         return new ResponseEntity<>( HttpStatus.OK);
     }
+
+    @GetMapping("/search-by-create-date")
+    public ResponseEntity<Iterable<Transaction>> searchByCreateDate(@RequestParam Long id,@RequestParam String from, @RequestParam String to) {
+        Iterable<Transaction> transactions = transactionService.findAllByCreatedDateBetween(id,LocalDateTime.parse(from),LocalDateTime.parse(to));
+        return new ResponseEntity<>(transactions, HttpStatus.OK);
+    }
+
+
 }

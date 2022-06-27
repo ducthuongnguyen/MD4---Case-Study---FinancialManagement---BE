@@ -23,7 +23,7 @@ import java.util.Optional;
 
 @Controller
 @CrossOrigin("*")
-@RequestMapping("/childCategory")
+@RequestMapping("/categories")
 public class ChildCategoryController {
     @Autowired
     private IChildCategoryService childCategoryService;
