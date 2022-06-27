@@ -1,6 +1,7 @@
 package com.codegym.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "child_category")
@@ -9,6 +10,7 @@ public class ChildCategory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true, nullable = false)
+//    @NotBlank(message = "Category's name must not be blank!")
     private String name;
     @ManyToOne
     private ParentCategory parentCategory;

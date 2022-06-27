@@ -8,12 +8,8 @@ import java.util.Optional;
 
 @Service
 public interface IAppUserService extends IGeneralService<AppUser> {
-    Optional<AppUser> findByName(String name);
-
-    Boolean existsByEmail(String email);
-    Boolean existsByName(String name);
-
-    Iterable<AppUser> findUsersByNameContaining(String name);
-    AppUser save(AppUser appUser);
-    Optional<AppUser> findUserByEmail(String email);
+    Optional<AppUser> findByUsername(String name); //Tim kiem User co ton tai trong DB khong?
+    Boolean existsByUsername(String username); //username da co trong DB chua, khi tao du lieu
+    Boolean existsByEmail(String email); //email da co trong DB chua
+    AppUser save(AppUser user);
 }
