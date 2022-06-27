@@ -5,7 +5,6 @@ import com.codegym.repository.ITransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -46,5 +45,21 @@ public class TransactionService implements ITransactionService {
     @Override
     public Iterable<Transaction> findAllByWalletIdAndCreatedDateBetween(Long id, LocalDateTime fromTime, LocalDateTime toTime) {
         return transactionRepository.findAllByWalletIdAndCreatedDateBetween(id, fromTime, toTime);
+    }
+
+    @Override
+    public Iterable<Transaction> findAllByWallet(Wallet wallet) {
+        return transactionRepository.findAllByWallet(wallet);
+    }
+
+    @Override
+    public Iterable<Transaction> findAllByWalletOrderByCreatedDateDesc(Wallet wallet) {
+        return transactionRepository.findAllByWalletOrderByCreatedDateDesc(wallet);
+    }
+
+
+    @Override
+    public Iterable<Transaction> findAllByCreatedDateBetween(Long walletId,LocalDateTime from, LocalDateTime to) {
+        return transactionRepository.findAllByCreatedDateBetween(walletId,from,to);
     }
 }

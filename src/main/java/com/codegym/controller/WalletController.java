@@ -4,8 +4,12 @@ package com.codegym.controller;
 import com.codegym.model.Wallet;
 import com.codegym.model.user.AppUser;
 import com.codegym.service.appuser.IAppUserService;
+import com.codegym.service.transaction.ITransactionService;
 import com.codegym.service.wallet.IWalletService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,6 +25,9 @@ public class WalletController {
 
     @Autowired
     private IAppUserService appUserService;
+
+    @Autowired
+    public ITransactionService transactionService;
 
     @GetMapping
     public ResponseEntity<Iterable<Wallet>> findAllWallet() {
@@ -87,5 +94,16 @@ public class WalletController {
         }
         Iterable<Wallet> wallets = walletService.findAllByAppUser(userOptional.get());
         return new ResponseEntity<>(wallets, HttpStatus.OK);
+    }
+
+    @GetMapping("/transaction-by-wallet/{id}")
+    public ResponseEntity<Iterable<Transaction>> getTransactionByWallet(@PathVariable("id") Long id) {
+        Optional<Wallet> wallet = walletService.findById(id);
+        if (!wallet.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        Iterable<Transaction> transactions = transactionService.findAllByWalletOrderByCreatedDateDesc(wallet.get());
+        return new ResponseEntity<>(transactions, HttpStatus.OK);
+
     }
 }
