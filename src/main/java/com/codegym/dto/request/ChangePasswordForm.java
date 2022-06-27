@@ -1,13 +1,13 @@
-package com.codegym.model.user;
+package com.codegym.dto.request;
 
-public class ChangePassword {
-    String currentPassword;
-    String newPassword;
+public class ChangePasswordForm {
+    private String currentPassword;
+    private String newPassword;
 
-    public ChangePassword() {
+    public ChangePasswordForm() {
     }
 
-    public ChangePassword(String currentPassword, String newPassword) {
+    public ChangePasswordForm(String currentPassword, String newPassword) {
         this.currentPassword = currentPassword;
         this.newPassword = newPassword;
     }

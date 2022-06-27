@@ -21,56 +21,35 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Bean
-    public RestAuthenticationEntryPoint restAuthenticationEntryPoint(){
-        return new RestAuthenticationEntryPoint();
-    }
-
     @Autowired
-    UserDetailsServiceImpl userDetailsService;
-
+    UserDetailsServiceImpl userDetailService;
     @Autowired
-    private JwtAuthEntryPoint unauthorizedHandler;
-
+    private JwtAuthEntryPoint jwtEntryPoint;
     @Bean
-    public JwtAuthTokenFilter authenticationJwtTokenFilter() {
+    public JwtAuthTokenFilter jwtTokenFilter(){
         return new JwtAuthTokenFilter();
     }
-
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder
-                .userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder());
+        authenticationManagerBuilder.userDetailsService(userDetailService).passwordEncoder(passwordEncoder());
     }
-
     @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
+    PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
-
+    @Bean
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().ignoringAntMatchers("/**");
-        http.httpBasic().authenticationEntryPoint(restAuthenticationEntryPoint());
-        http.authorizeRequests()
-                .antMatchers("/**").permitAll()
+    public AuthenticationManager authenticationManager() throws Exception {
+        return super.authenticationManager();
+    }
+    @Override
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.cors().and().csrf().disable()
+                .authorizeRequests().antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
-                .and()
-                .csrf().disable();
-        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-        ;
-        http.sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.cors();
-
-
-
+                .and().exceptionHandling()
+                .authenticationEntryPoint(jwtEntryPoint)
+                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        httpSecurity.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }
