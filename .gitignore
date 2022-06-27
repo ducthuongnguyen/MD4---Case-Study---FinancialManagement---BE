@@ -106,4 +106,4 @@ Temporary Items
 .apdisk
 
 #config
-src/main/resources/local.env
+local.env
