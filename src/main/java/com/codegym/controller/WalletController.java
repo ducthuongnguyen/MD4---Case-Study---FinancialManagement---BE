@@ -1,6 +1,7 @@
 package com.codegym.controller;
 
 
+import com.codegym.model.Transaction;
 import com.codegym.model.Wallet;
 import com.codegym.model.user.AppUser;
 import com.codegym.security.jwt.JwtAuthTokenFilter;
@@ -8,6 +9,7 @@ import com.codegym.security.jwt.JwtProvider;
 import com.codegym.service.appuser.AppUserService;
 import com.codegym.service.appuser.IAppUserService;
 import com.codegym.service.appuser.RoleServiceImpl;
+import com.codegym.service.transaction.ITransactionService;
 import com.codegym.service.wallet.IWalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,6 +41,8 @@ public class WalletController {
     JwtAuthTokenFilter jwtTokenFilter;
     @Autowired
     private IWalletService walletService;
+    @Autowired
+    private ITransactionService transactionService;
 
     @Autowired
     private IAppUserService appUserService;
@@ -49,18 +53,18 @@ public class WalletController {
         return new ResponseEntity<>(wallets, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Optional<Wallet>> findById(HttpServletRequest request ,@PathVariable Long id) {
-        String jwt = jwtTokenFilter.getJwt(request);
-        String username = jwtProvider.getUerNameFromToken(jwt);
-        AppUser user;
-        user = userService.findByUsername(username).orElseThrow(()-> new UsernameNotFoundException("User Not Found with -> username"+username));
-        if (user==null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        Optional<Wallet> wallets = walletService.findById(id);
-        return new ResponseEntity<>(wallets, HttpStatus.OK);
-    }
+//    @GetMapping("/{id}")
+//    public ResponseEntity<Optional<Wallet>> findById(HttpServletRequest request ,@PathVariable Long id) {
+//        String jwt = jwtTokenFilter.getJwt(request);
+//        String username = jwtProvider.getUerNameFromToken(jwt);
+//        AppUser user;
+//        user = userService.findByUsername(username).orElseThrow(()-> new UsernameNotFoundException("User Not Found with -> username"+username));
+//        if (user==null){
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//        Optional<Wallet> wallets = walletService.findById(id);
+//        return new ResponseEntity<>(wallets, HttpStatus.OK);
+//    }
 
 //    @PutMapping("/{id}")
 //    public ResponseEntity<Wallet> updateWallet(@PathVariable Long id, @RequestBody Wallet wallet) {
@@ -96,8 +100,7 @@ public class WalletController {
 
     @PutMapping("/editWallet/{id}")
     public ResponseEntity<Wallet> editWallet(HttpServletRequest request ,@RequestBody Wallet wallet, @PathVariable Long id) {
-        String jwt = jwtTokenFilter.getJwt(request);
-        String username = jwtProvider.getUerNameFromToken(jwt);
+        String username = userService.findById(wallet.getAppUser().getId()).get().getUsername();
         AppUser user;
         user = userService.findByUsername(username).orElseThrow(()-> new UsernameNotFoundException("User Not Found with -> username"+username));
         if (user==null){
@@ -150,6 +153,20 @@ public class WalletController {
     public ResponseEntity<Iterable<Wallet>> findByWalletName(@PathVariable String name){
         return new ResponseEntity<>(walletService.findAllByNameContaining(name), HttpStatus.OK);
     }
-//
 
+    @GetMapping("/transaction-by-wallet/{id}")
+    public ResponseEntity<Iterable<Transaction>> getTransactionByWallet(@PathVariable("id") Long id) {
+        Optional<Wallet> wallet = walletService.findById(id);
+        if (!wallet.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        Iterable<Transaction> transactions = transactionService.findAllByWalletOrderByCreatedDateDesc(wallet.get());
+        return new ResponseEntity<>(transactions, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<Wallet>> findById(@PathVariable Long id) {
+        Optional<Wallet> wallets= walletService.findById(id);
+        return new ResponseEntity<>(wallets, HttpStatus.OK);
+    }
 }

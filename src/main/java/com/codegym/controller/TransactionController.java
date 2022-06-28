@@ -80,4 +80,10 @@ public class TransactionController {
         }
         return new ResponseEntity<>(transactionService.findAllByWalletIdAndCreatedDateBetween(id,LocalDateTime.parse(fromTime), LocalDateTime.parse(toTime)), HttpStatus.OK);
     }
+
+    @GetMapping("/search-by-create-date")
+    public ResponseEntity<Iterable<Transaction>> searchByCreateDate(@RequestParam Long id,@RequestParam String from, @RequestParam String to) {
+        Iterable<Transaction> transactions = transactionService.findAllByCreatedDateBetween(id,LocalDateTime.parse(from),LocalDateTime.parse(to));
+        return new ResponseEntity<>(transactions, HttpStatus.OK);
+    }
 }
